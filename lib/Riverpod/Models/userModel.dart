@@ -30,6 +30,7 @@ class LoginModel {
 
 class ComplaintGetAllModel {
   ComplaintGetAllModel({
+    required this.id,
     required this.title,
     required this.description,
     required this.status,
@@ -41,7 +42,7 @@ class ComplaintGetAllModel {
     this.image,
     required this.username,
   });
-
+  String id;
   dynamic title;
   dynamic description;
   dynamic status;
@@ -55,6 +56,7 @@ class ComplaintGetAllModel {
 
   factory ComplaintGetAllModel.fromJson(Map<String, dynamic> json) =>
       ComplaintGetAllModel(
+        id: json["id"],
         title: json["title"],
         description: json["description"],
         status: json["status"],
@@ -68,6 +70,7 @@ class ComplaintGetAllModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "title": title,
         "description": description,
         "status": status,
@@ -237,29 +240,22 @@ class OwnReportModel {
 
 class UserDetailsModel {
   UserDetailsModel({
-    required this.name,
-    required this.lastName,
-    required this.usersType,
+    required this.username,
+    required this.email,
+    required this.role,
     required this.id,
   });
 
-  String name;
-  String lastName;
-  int usersType;
-  int id;
+  String username;
+  String email;
+  int role;
+  String id;
 
   factory UserDetailsModel.fromJson(Map<String, dynamic> json) =>
       UserDetailsModel(
-        name: json["name"],
-        lastName: json["lastName"],
-        usersType: json["usersType"],
+        username: json["username"],
+        email: json["email"],
+        role: json["role"],
         id: json["id"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "lastName": lastName,
-        "usersType": usersType,
-        "id": id,
-      };
 }

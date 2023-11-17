@@ -1,13 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:project/Riverpod/Models/userModel.dart';
 import 'package:project/Riverpod/constants.dart';
-
-// import 'package:nb_utils/nb_utils.dart';
-
 import '../../Routes/navigator.dart';
 import '../baseDIo.dart';
 import '../config.dart';
@@ -22,40 +18,17 @@ class UserRepository {
           await Api().post("${MyConfig.nodeUrl}/user/login", data: data);
       print(response.realUri);
 
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const AlertDialog(
-            content: Row(
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(
-                  width: 40,
-                ),
-                Text("Loading...")
-              ],
-            ),
-          );
-        },
-      );
-      // var token = json.decode(response.data)['token'];
-      // var role = json.decode(response.data)['role'];
+      var token = json.decode(response.data)['token'];
+      var role = json.decode(response.data)['role'];
 
       // print(token);
-      // await setValue(accessToken, token);
-      // await setValue(userType, role.toString());
-      Navigator.pop(context);
-      await AppNavigatorService.pushNamedAndRemoveUntil("appbar");
+      await setValue(accessToken, token);
+      await setValue(userType, role.toString());
 
-      // if (role == "Admin") {
-      //   await AppNavigatorService.pushNamedAndRemoveUntil("admin");
-      // } else if (role == 2) {
-      //   await AppNavigatorService.pushNamedAndRemoveUntil("appbar");
-      // } else {
-      //   await AppNavigatorService.pushNamedAndRemoveUntil("maintainer");
-      // }
-
-      await AppNavigatorService.pushNamedAndRemoveUntil("login");
+      if (role == 2) {
+        await AppNavigatorService.pushNamedAndRemoveUntil("appbar");
+      }
+      await AppNavigatorService.pushNamedAndRemoveUntil("admin");
     } catch (e) {
       print(e.toString());
     }
@@ -94,13 +67,10 @@ class UserRepository {
   }
 
   Future<List<UserDetailsModel>> getAllUsers() async {
-    const url = "/api/services/app/Complaint/GetAllUsers";
-    final response = await Api().get(MyConfig.appUrl + url);
-
+    const url = "/user/getUsers";
+    final response = await Api().get(MyConfig.nodeUrl + url);
     if (response.statusCode == 200) {
-      Map<String, dynamic> map = json.decode(response.data);
-      List<dynamic> data = map["result"];
-
+      List data = json.decode(response.data);
       return data.map((data) => UserDetailsModel.fromJson(data)).toList();
     } else {
       List<UserDetailsModel> a = [];

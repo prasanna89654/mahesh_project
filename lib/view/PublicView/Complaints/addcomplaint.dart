@@ -9,8 +9,11 @@ import 'package:location/location.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:project/widgets/TEsts/getmap.dart';
 
+import '../../../Riverpod/Repository/complaintController.dart';
 import '../../../Riverpod/baseDIo.dart';
 import '../../../Riverpod/config.dart';
+import '../../../widgets/TEsts/newtry.dart';
+import '../publicComplaints.dart';
 
 class ComplaintAddPage extends ConsumerStatefulWidget {
   const ComplaintAddPage({super.key});
@@ -69,12 +72,13 @@ class _ComplaintAddPageState extends ConsumerState<ComplaintAddPage> {
     }
   }
 
-  uploadFile() async {
+  Future uploadFile() async {
     var formdata = FormData.fromMap({
       "title": titleCtrl.value.text,
       "description": descriptionCtrl.value.text,
       "address": ref.watch(locationStateProvider).conl(),
-      "file": await MultipartFile.fromFile(filess!.path),
+      "file":
+          filess == null ? null : await MultipartFile.fromFile(filess!.path),
       "ward": wardselectedvalue,
       "category": categoryselectedvalue,
     });
@@ -235,12 +239,12 @@ class _ComplaintAddPageState extends ConsumerState<ComplaintAddPage> {
                                                     Center(
                                                       child: SimpleDialogOption(
                                                           onPressed: () {
-                                                            // Navigator.push(
-                                                            //     context,
-                                                            //     MaterialPageRoute(
-                                                            //         builder:
-                                                            //             (context) =>
-                                                            //                 MapSample()));
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const MapSample()));
                                                             setState(() {
                                                               isSelected = true;
                                                             });
@@ -550,7 +554,11 @@ class _ComplaintAddPageState extends ConsumerState<ComplaintAddPage> {
                                   );
                                   return;
                                 }
-                                uploadFile();
+                                uploadFile().then((value) {
+                                  ref.refresh(getownReportProvider);
+
+                                  ref.refresh(getallComplaintProvider);
+                                });
                               }
                             },
                             child: const Padding(

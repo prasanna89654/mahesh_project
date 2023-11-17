@@ -1,7 +1,5 @@
 // ignore_for_file: file_names
-
 import 'dart:convert';
-
 import 'package:flutter/services.dart';
 import 'package:project/Riverpod/Models/NewsModel.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

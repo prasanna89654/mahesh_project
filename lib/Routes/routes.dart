@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:project/view/AdminView/AdminHomePage.dart';
-import 'package:project/view/MaintainerView/MaintainerDashboard.dart';
 import 'package:project/view/PublicView/EventsPage.dart';
 import 'package:project/view/PublicView/appbar.dart';
 import 'package:project/view/PublicView/login.dart';
@@ -19,12 +18,12 @@ class Routes {
     router.define('login',
         handler: Handler(
             handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
-                LoginScreen()));
+                const LoginScreen()));
 
-    // router.define('admin',
-    //     handler: Handler(
-    //         handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
-    //             AdminHomePage()));
+    router.define('admin',
+        handler: Handler(
+            handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>
+                const AdminHomePage()));
     // router.define('maintainer',
     //     handler: Handler(
     //         handlerFunc: (BuildContext? context, Map<String, dynamic> params) =>

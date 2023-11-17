@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../Riverpod/Models/userModel.dart';
+import '../../../Riverpod/Repository/complaintController.dart';
 import '../../../Riverpod/baseDIo.dart';
 import '../../../Riverpod/config.dart';
 import '../../../widgets/TEsts/random.dart';
@@ -43,20 +44,13 @@ class _PendingComplaintsState extends ConsumerState<PendingComplaints> {
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: () async {
-                // datas.clear();
-                // ref.watch(getownComplaintProvider).when(
-                //       data: (data) {
-                //         final dad = data
-                //             .where((element) => element.status == 'pending')
-                //             .toList();
-                //         setState(() {
-                //           datas = dad;
-                //         });
-                //       },
-                //       error: (error, stackTrace) {},
-                //       loading: () {},
-                //     );
-                // return Future<void>.value();
+                getownComplaints().then((value) {
+                  if (mounted) {
+                    setState(() {
+                      datas = value;
+                    });
+                  }
+                });
               },
               child: ListView.builder(
                 itemCount: datas!.length,
@@ -134,37 +128,6 @@ class _PendingComplaintsState extends ConsumerState<PendingComplaints> {
                                                                 .start,
                                                         children: [
                                                           TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                // Navigator.push(
-                                                                //     context,
-                                                                //     MaterialPageRoute(
-                                                                //         builder: (context) =>
-                                                                //             ComplaintUpdatePage(
-                                                                //               cm: datas[index],
-                                                                //             )));
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons.edit,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        width *
-                                                                            0.04,
-                                                                  ),
-                                                                  const Text(
-                                                                    "Edit",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: Colors
-                                                                          .black87,
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              )),
-                                                          TextButton(
                                                               onPressed: () {
                                                                 showDialog(
                                                                   context:
@@ -191,25 +154,18 @@ class _PendingComplaintsState extends ConsumerState<PendingComplaints> {
                                                                         TextButton(
                                                                           onPressed:
                                                                               () {
-                                                                            // Future<dynamic>
-                                                                            //     code =
-                                                                            //     ref.watch(complaintProvider).deleteComplaint(datas[index].id.toString());
-                                                                            // code.then(
-                                                                            //   (value) {
-                                                                            //     if (value == 200) {
-                                                                            //       Navigator.pop(context);
-                                                                            //       Navigator.pop(context);
-                                                                            //       ref.refresh(getallComplaintProvider);
-
-                                                                            //       Navigator.pushReplacement(
-                                                                            //           context,
-                                                                            //           MaterialPageRoute(
-                                                                            //               builder: (context) => Appbar(
-                                                                            //                     cindex: 1,
-                                                                            //                   )));
-                                                                            //     }
-                                                                            //   },
-                                                                            // );
+                                                                            Api().delete("${MyConfig.nodeUrl}/complaint/deleteComplaint/${datas![index].id}").then((value) {
+                                                                              ref.refresh(getownReportProvider);
+                                                                              Navigator.of(context).pop();
+                                                                              Navigator.of(context).pop();
+                                                                              getownComplaints().then((value) {
+                                                                                if (mounted) {
+                                                                                  setState(() {
+                                                                                    datas = value;
+                                                                                  });
+                                                                                }
+                                                                              });
+                                                                            });
                                                                           },
                                                                           child:
                                                                               const Text("Yes"),

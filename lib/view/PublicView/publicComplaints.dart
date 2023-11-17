@@ -742,24 +742,18 @@ class _PublicComplaintsState extends ConsumerState<PublicComplaints>
                                                             backgroundColor: datas[
                                                                             index]
                                                                         .priority ==
-                                                                    0
+                                                                    'Low'
                                                                 ? Colors.green
                                                                 : datas[index]
                                                                             .priority ==
-                                                                        1
+                                                                        'Medium'
                                                                     ? Colors
                                                                         .orange
                                                                     : Colors
                                                                         .red,
                                                             label: Text(
-                                                              datas[index].priority ==
-                                                                      0
-                                                                  ? "Low"
-                                                                  : datas[index]
-                                                                              .priority ==
-                                                                          1
-                                                                      ? "Medium"
-                                                                      : "High",
+                                                              datas[index]
+                                                                  .priority,
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .white),
@@ -916,3 +910,7 @@ Future<List<ComplaintGetAllModel>> getComplaints() async {
     return a;
   }
 }
+
+final getallComplaintProvider =
+    FutureProvider.autoDispose<List<ComplaintGetAllModel>>(
+        (ref) async => getComplaints());

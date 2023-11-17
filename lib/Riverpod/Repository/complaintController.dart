@@ -68,6 +68,7 @@ class ComplaintController {
     try {
       String gethomeworkdetails = "/complaint/getComplaintStatus";
       final response = await Api().get(MyConfig.nodeUrl + gethomeworkdetails);
+      print("nice33");
       if (response.statusCode == 200) {
         var value = json.decode(response.toString());
 
@@ -94,9 +95,9 @@ final getownComplaintProvider =
     FutureProvider.autoDispose<List<ComplaintGetAllModel>>((ref) async {
   return ref.read(complaintProvider).getownComplaints();
 });
-final getuserProvider = FutureProvider<UserModel?>((ref) async {
+final getuserProvider = FutureProvider.autoDispose<UserModel?>((ref) async {
   return ref.read(complaintProvider).getuserdetails();
 });
-final getownReportProvider = FutureProvider<OwnReportModel?>((ref) async {
+final getownReportProvider = FutureProvider.autoDispose<OwnReportModel?>((ref) async {
   return ref.read(complaintProvider).ownReportDetails();
 });

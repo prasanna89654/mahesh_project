@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:project/Riverpod/constants.dart';
-import 'package:project/controller/notificationservices.dart';
+import 'package:project/view/AdminView/AdminHomePage.dart';
 import 'package:project/view/PublicView/appbar.dart';
 import 'package:project/view/PublicView/login.dart';
 import 'Routes/navigator.dart';
@@ -48,10 +48,13 @@ class _MyAppState extends State<MyApp> {
 selectScreen() {
   // final usertype = getStringAsync(userType);
   // print(usertype);
-  // final token = getStringAsync(accessToken);
+  final token = getStringAsync(accessToken);
+  final role = getStringAsync(userType);
 
-  // if (token.isEmptyOrNull || usertype.isEmptyOrNull) {
-  //   return const LoginScreen();
+  if (token.isEmptyOrNull) {
+    return const LoginScreen();
+  }
+
   // } else if (usertype == "Admin") {
   //   // return const AdminHomePage();
   // } else if (usertype == "2") {
@@ -61,6 +64,10 @@ selectScreen() {
   // } else {
   //   // return MaintainerDashboard();
   // }
-
-  return const LoginScreen();
+  if (role == "2") {
+    return Appbar(
+      cindex: 0,
+    );
+  }
+  return const AdminHomePage();
 }

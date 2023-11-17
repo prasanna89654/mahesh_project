@@ -16,6 +16,7 @@ import '../../Riverpod/Models/userModel.dart';
 import '../../Riverpod/baseDIo.dart';
 import '../../Riverpod/config.dart';
 import '../../widgets/publicmaker.dart';
+import 'helpliness.dart';
 
 class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key, this.changePage});
@@ -38,8 +39,6 @@ class _HomepageState extends ConsumerState<Homepage> {
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
-    final token = getStringAsync(accessToken);
-    print("tokenId: $token");
     final report = ref.watch(getownReportProvider);
 
     return Scaffold(
@@ -138,12 +137,12 @@ class _HomepageState extends ConsumerState<Homepage> {
                                     ),
                                     child: IconButton(
                                       onPressed: (() {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           const Helpliness(),
-                                        //     ));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Helpliness(),
+                                            ));
                                       }),
                                       icon: const Icon(Icons.phone),
                                     )),
@@ -336,11 +335,11 @@ class _HomepageState extends ConsumerState<Homepage> {
               ),
             ),
             const SizedBox(height: 30),
-            // const Publicmaker(),
+            const Publicmaker(),
             // const Nearbymaker(),
-            // Newsmaker(
-            //   changePage: widget.changePage,
-            // )
+            Newsmaker(
+              changePage: widget.changePage,
+            )
           ],
         ),
       ),
